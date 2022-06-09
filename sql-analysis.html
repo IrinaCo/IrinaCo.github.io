@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>SQL Analysis - Irina Cojo</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<div class="inner">
+
+							<!-- Logo -->
+								<a href="index.html" class="logo">
+									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Irina Cojo | Data Projects</span>
+								</a>
+
+							<!-- Nav -->
+								<nav>
+									<ul>
+										<li><a href="#menu">Menu</a></li>
+									</ul>
+								</nav>
+
+						</div>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<h2>Menu</h2>
+						<ul>
+							<li><a href="index.html">Home</a></li>
+							<li><a href="major-accidents.html">Major Accidents Analysis</a></li>
+							<li><a href="sql-analysis.html">SQL Data Analysis</a></li>
+							<!--<li><a href="generic.html">Consequat dolor</a></li>
+							<li><a href="elements.html">Elements</a></li>-->
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<h1>SQL Data Analysis - A Collection of Examples </h1>
+							<!--<span class="image main"><img src="images/database.png" alt="" /></span>-->
+							<p> The GitHub repository for this collection of examples can be found <a href = "https://github.com/IrinaCo/SQL-Data-Analysis"> here. </a></p>
+							<p>This is a project that goes through different SQL queries, from simple to complex. You can find all the database files <a href = "https://www.wiley.com/en-ca/Data+Analysis+Using+SQL+and+Excel%2C+2nd+Edition-p-9781119021438"> here.</a> (download All Code Files). It accompanies the book "Data Analysis Using SQL and Excel, 2nd Edition" , by Gordon S. Linoff. However, the queries created based on this database are original (not included in the book mentioned above). They are queries meant to walk through concepts ranging from filtering, <b>grouping, sorting, joining, pivoting, applying various types of functions (aggregate, window functions, date functions etc.), to using table expressions and stored procedures </b>.</p>
+							<p>Below is a snapshot of the database diagram. It is the database of a fictional store, with Customers, Products, Orders, Campaigns etc.</p>
+							<span class="image"><img src="images/Database-data-model.jpg" width="900" alt="" /></span>
+							<p>The project includes over 50 examples, grouped in 5 files. Here is one of my favorites: calculating a RFM (Recency, Frequency, Monetary value) score for all the households in the database:</p>
+							<pre><code>/* Calculate the date of first purchase, the date of last purchase and the
+Recency (number of days since last purchase)
+Frequency (total number of puchases)
+Monetary value (total amount spent)
+Assume that the current date is 2016-12-31.*/
+
+SELECT Customers.HouseholdId,
+	   Orders.OrderDate AS [Current Order Date],
+	   FIRST_VALUE(Orders.OrderDate) OVER (PARTITION BY Customers.HouseholdId ORDER BY Orders.OrderDate ) AS [Date of first purchase],
+	   FIRST_VALUE(Orders.OrderDate) OVER (PARTITION BY Customers.HouseholdId ORDER BY Orders.OrderDate DESC) AS [Date of last purchase],
+	   DATEDIFF(day,CONVERT(DATE,FIRST_VALUE(Orders.OrderDate) OVER (PARTITION BY Customers.HouseholdId ORDER BY Orders.OrderDate DESC)),'2016-12-31') AS [Number of days since last purchase],
+	   COUNT(Orders.OrderId) OVER (PARTITION BY Customers.HouseholdId) AS [Number of purchases],
+	   SUM(Orders.TotalPrice) OVER (PARTITION BY Customers.HouseholdId) AS [Total Amount Spent]
+FROM Customers
+JOIN Orders ON Orders.CustomerId = Customers.CustomerId
+WHERE Customers.HouseholdId<>0
+ORDER BY Customers.HouseholdId,Orders.OrderDate;
+GO
+
+/* Starting from the query above, calculate a RFM score (Recency, Frequency, Monetary value) for all the households in the database.
+Give a score from 1 to 5 for each of the Recency, Frequency and Monetary value indicators (5 corresponds to the best/highest value)
+Add the scores for R, F, M to get the final RFM SCore.
+Order all the households by RFM score and then by Monetary Value and calculate a percent rank for each.*/
+
+WITH rfm
+AS
+(
+	SELECT Customers.HouseholdId,
+		   FIRST_VALUE(Orders.OrderDate) OVER (PARTITION BY Customers.HouseholdId ORDER BY Orders.OrderDate DESC) AS [Date of last purchase],
+		   DATEDIFF(day,CONVERT(DATE,FIRST_VALUE(Orders.OrderDate) OVER (PARTITION BY Customers.HouseholdId ORDER BY Orders.OrderDate DESC)),'2016-12-31') AS [Recency],
+		   COUNT(Orders.OrderId) OVER (PARTITION BY Customers.HouseholdId) AS [Frequency],
+		   SUM(Orders.TotalPrice) OVER (PARTITION BY Customers.HouseholdId) AS [Monetary Value]
+	FROM Customers
+	JOIN Orders ON Orders.CustomerId = Customers.CustomerId
+	WHERE Customers.HouseholdId<>0
+)
+,RFMCalc AS
+(
+	SELECT HouseholdId,
+			MAX(Recency) AS Recency,
+			MAX(Frequency) AS Frequency,
+			MAX([Monetary Value]) AS [Monetary Value],
+			NTILE(5) OVER(ORDER BY MAX(Recency) DESC) AS RecencyScore,
+			NTILE(5) OVER(ORDER BY MAX(Frequency)) AS FrequencyScore,
+			NTILE(5) OVER(ORDER BY MAX([Monetary Value])) AS MonetaryScore,
+			NTILE(5) OVER(ORDER BY MAX(Recency) DESC) + NTILE(5) OVER(ORDER BY MAX(Frequency)) + NTILE(5) OVER(ORDER BY MAX([Monetary Value])) AS RFMScore
+	FROM rfm
+	GROUP BY HouseholdId
+)
+SELECT
+	   RFMCalc.*,
+	   FORMAT(PERCENT_RANK() OVER(ORDER BY RFMScore DESC,[Monetary Value] DESC),'N5') AS [Percent Rank]
+FROM RFMCalc
+ORDER BY RFMScore DESC,[Monetary Value] DESC;
+GO
+
+</code></pre>
+							<p> Again, you can find many other T-SQL examples in <a href = "https://github.com/IrinaCo/SQL-Data-Analysis"> this Github repository.</a></p>
+						</div>
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<!--<section>
+								<h2>Get in touch</h2>
+								<form method="post" action="#">
+									<div class="fields">
+										<div class="field half">
+											<input type="text" name="name" id="name" placeholder="Name" />
+										</div>
+										<div class="field half">
+											<input type="email" name="email" id="email" placeholder="Email" />
+										</div>
+										<div class="field">
+											<textarea name="message" id="message" placeholder="Message"></textarea>
+										</div>
+									</div>
+									<ul class="actions">
+										<li><input type="submit" value="Send" class="primary" /></li>
+									</ul>
+								</form>
+							</section>
+							<section>
+								<h2>Follow</h2>
+								<ul class="icons">
+									<li><a href="#" class="icon brands style2 fa-twitter"><span class="label">Twitter</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-facebook-f"><span class="label">Facebook</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-instagram"><span class="label">Instagram</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-dribbble"><span class="label">Dribbble</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-github"><span class="label">GitHub</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-500px"><span class="label">500px</span></a></li>
+									<li><a href="#" class="icon solid style2 fa-phone"><span class="label">Phone</span></a></li>
+									<li><a href="#" class="icon solid style2 fa-envelope"><span class="label">Email</span></a></li>
+								</ul>
+							</section>-->
+							<ul class="copyright">
+								<!--<li>&copy; Untitled. All rights reserved</li>--><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
