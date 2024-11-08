@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Coffee Drinker Personas based on The Great American Coffee Test [Maven Analytics Challenge finalist]</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<div class="inner">
+
+							<!-- Logo -->
+								<a href="index.html" class="logo">
+									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Irina Cojo | Data Projects</span>
+								</a>
+
+							<!-- Nav -->
+								<nav>
+									<ul>
+										<li><a href="#menu">Menu</a></li>
+									</ul>
+								</nav>
+
+						</div>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<h2>Menu</h2>
+						<ul>
+							<li><a href="index.html">Home</a></li>
+							<li><a href="generic.html">Ipsum veroeros</a></li>
+							<li><a href="generic.html">Tempus etiam</a></li>
+							<li><a href="generic.html">Consequat dolor</a></li>
+							<li><a href="elements.html">Elements</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<h1>Coffee Drinker Personas <h1>
+							<h2>based on The Great American Coffee Test</h2>
+							<span class="image main"><img src="images/Coffee_image.jpg" alt="" /></span>
+							<p> This project was part of the <a href = "https://mavenanalytics.io/challenges/maven-coffee-challenge/7b0dc5df-8a27-4a05-b634-75e61615d1e1"> Maven Analytics Coffee Challenge </a>. The challenge objective was to play the role of an Analytics Consultant hired by a group of investors looking to break into the US coffee market. They would like to leverage insights from <a href = "https://www.youtube.com/watch?v=bMOOQfeloH0"> "The Great American Coffee Taste Test"</a>, but lack the analytical skills to do so.</br>
+							<br> The result will be an explanatory report providing a data-driven strategy for opening their first coffee shop. The investors expressed interest in the following areas, but are open to any additional insights and recommendations:
+
+								<li><b>Target audience</b>: What type of customer should we target, and what are their preferences?</li>
+								<li><b>Product offering</b>: What types of coffee beans and drinks should we offer?</li>
+								<li><b>Pricing strategy</b>: How can we align prices with customer value perception?	</li>
+							<br>
+							<h3>Tools Used</h3>
+							I used Python for data cleaning, exploration and manipulation and then Power BI for visualization. During the first step I uncovered the insights in Python and set up the data to be ready to be visualized. I used Power BI strictly for setting up the report visually.
+ 
+							<br></br>
+							<h3> Data Cleaning</h3>
+							The original data contains survey responses from ~4,000 Americans after a blind coffee taste test conducted by YouTube coffee expert James Hoffmann and Cometeer.
+							<p> After exploring the data, I decided to eliminate the records that didn't have any answers to the taste test questions. These records didn't actually fulfill the objective of the test - they don't tell us anything about the preferences of the participants between coffees A-D.</p>
+							<p> Next, I also eliminated the records that registered outliers for Acidity for Coffees A-C, as most likely these included incorrect answers due to errors (ex: a mix-up of the samples).</p>
+							<p> This left us in the end with ~3,600 unique valid records.</p>
+
+							<h3> Data Exploration</h3>
+							<p> As James Hoffmann notes, the characteristics of those who participated in the taste test align with the ones of his YouTube subscribers - mostly people interested in coffee and also in his delivery style.</p>
+							<p>Based on the initial analysis of the answers, the majority of the coffee testers were highly educated (Bachelor's Degree and higher) white/Caucasian men, between 25-44 years old, with no children, and employed full time.</p>
+							<p>As this demographic is not representative of the overall US population, instead of analyzing the results as a whole, I decided on a different approach - I tried to identify customer personas within the data, by grouping them based on the testers' coffee expertise, motivation, and willingness to spend money on coffee.</p>
+							<p>I did this using K Means Clustering, a clustering algorithm. Here are the variables included in the algorithm:</p>
+							Lastly how would you rate your own coffee expertise?
+							<li> In total much money do you typically spend on coffee in a month?</li>
+							<li> Why do you drink coffee? (It tastes good)</li>
+							<li> Why do you drink coffee? (I need the caffeine)</li>
+							<li> What is the most you’ve ever paid for a cup of coffee?</li>
+							<li> What is the most you’d ever be willing to pay for a cup of coffee?</li>
+							<li> Do you feel like you’re getting good value for your money when you buy coffee at a cafe?</li>
+
+							<p></p>	
+							<h3> Coffee Drinker Personas</h3>
+							<p>I found three groups emerging from the clustering process (the algorithm would have suggested slightly more, but I stuck with 3 for simplicity) and I attached a persona to each:</p>
+							<p><strong>The Casual Coffee Drinker</strong>&nbsp;- represents about 12% of the dataset. This is the group that includes the people who are the least passionate about coffee (among an overall sample of taste testers who tend to be highly interested in coffee), so unsurprisingly it's the smallest group.</p>
+							<p>They don't consider themselves experts, they don't drink coffee as frequently as the other groups, 33% of them don't even like the taste of coffee.</p>
+							<p>Also, they don't see as much value in buying a coffee from a coffee shop as the other groups. One of the most interesting characteristics of this group was that it included 53% females, compared to the other 2 groups where males are dominant.</p>
+							<p><strong>The Educated Coffee Drinker</strong>&nbsp;(56% of the dataset). This groups includes taste testers with an above average knowledge of coffee, who enjoy the taste and drink it frequently. They are the middle ground between Casual and Connoisseur.</p>
+							<p><strong>The Coffee Connoisseur</strong>&nbsp;(32% of the dataset) - these are the real passionate coffee drinkers. They consider themselves knowledgeable and enjoy drinking coffee frequently. Predominantly male (81%), they go beyond the taste and are also interested in aspects like the coffee origin. They are willing to pay the most for a cup of coffee and they are the ones who enjoyed coffee D the most.</p>
+							<p>Following the clustering, I ran a chi square test on the questions that weren't included in the clustering algorithm to see if the potential differences between clusters are statistically significant. I only kept the statistically significant ones to show the differences between the clusters in the report.</p>
+							<p>The report below includes an overview of the coffee drinker personas, an analysis on their willingness to spend and of their coffee tastes and ends with recommendations on targeting, product offering and pricing.</p>
+							
+							<span class="image fit"><img src="images/Maven Coffee Challenge Final Report.jpg" alt="" /></span>
+							
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<!--<section>
+								<h2>Get in touch</h2>
+								<form method="post" action="#">
+									<div class="fields">
+										<div class="field half">
+											<input type="text" name="name" id="name" placeholder="Name" />
+										</div>
+										<div class="field half">
+											<input type="email" name="email" id="email" placeholder="Email" />
+										</div>
+										<div class="field">
+											<textarea name="message" id="message" placeholder="Message"></textarea>
+										</div>
+									</div>
+									<ul class="actions">
+										<li><input type="submit" value="Send" class="primary" /></li>
+									</ul>
+								</form>
+							</section>
+							<section>
+								<h2>Follow</h2>
+								<ul class="icons">
+									<li><a href="#" class="icon brands style2 fa-twitter"><span class="label">Twitter</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-facebook-f"><span class="label">Facebook</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-instagram"><span class="label">Instagram</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-dribbble"><span class="label">Dribbble</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-github"><span class="label">GitHub</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-500px"><span class="label">500px</span></a></li>
+									<li><a href="#" class="icon solid style2 fa-phone"><span class="label">Phone</span></a></li>
+									<li><a href="#" class="icon solid style2 fa-envelope"><span class="label">Email</span></a></li>
+								</ul>
+							</section> -->
+							<ul class="copyright">
+								<!--<li>&copy; Untitled. All rights reserved</li>--><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
