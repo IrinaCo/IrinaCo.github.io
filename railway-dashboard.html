@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>National Rail Power BI Dashboard [Maven Analytics Challenge finalist]</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<div class="inner">
+
+							<!-- Logo -->
+								<a href="index.html" class="logo">
+									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Irina Cojo | Data Projects</span>
+								</a>
+
+							<!-- Nav -->
+								<nav>
+									<ul>
+										<li><a href="#menu">Menu</a></li>
+									</ul>
+								</nav>
+
+						</div>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<h2>Menu</h2>
+						<ul>
+							<li><a href="index.html">Home</a></li>
+							<li><a href="railway-dashboard.html">National Railway Dashboard</a></li>
+							<li><a href="coffee-drinker-personas.html">Coffee Drinker Personas based on Survey data</a></li>
+							<li><a href="major-accidents.html">Major Accidents Analysis</a></li>
+							<li><a href="sql-analysis.html">SQL Data Analysis</a></li>
+							<li><a href="power-bi-food.html">Evolution of Food Prices - Power BI</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<h1>National Railway Power BI Dahsboard </h1>
+							<span class="image main"><img src="images/train3.jpg" alt="" /></span>
+							<p> This project was part of the <a href = "hhttps://mavenanalytics.io/challenges/maven-rail-challenge/08941141-d23f-4cc9-93a3-4c25ed06e1c3"> Maven Analytics Rail Challenge </a>. The challenge objective was to play the role of a BI Developer for National Rail, a company that provides business services to passenger train operators in England, Scotland, and Wales.</br>
+							<br> The result is an explanatory report that helps them:
+
+								<li>Identify the most popular routes</li>
+								<li>Determine peak travel times</li>
+								<li>Analyze revenue from different ticket types & classes</li>
+								<li>Diagnose on-time performance and contributing factors</li>
+
+							<br>
+							<h3> The interactive dashboard:</h3>
+
+							<iframe title="Maven Railway Challenge Report" width="1024" height="612" src="https://app.powerbi.com/view?r=eyJrIjoiMzZjZTBkMmItNTk5Ny00YmE1LWFmY2EtMjE5OTc0NWM0ZjlkIiwidCI6IjI1Y2UwMjYxLWJiZDYtNDljZC1hMWUyLTU0MjYwODg2ZDE1OSJ9" frameborder="0" allowFullScreen="true"></iframe>
+
+							<br></br>				
+							<h3>Design / User Experience Choices</h3>
+							<p>For this project I decided to&nbsp;<strong>use the Pareto Principle as the connecting thread&nbsp;</strong>between the first 3 pages. My goal is to make it easier and faster to understand for the user, as the format repeats from page to page and the user doesn&rsquo;t need to &ldquo;take in&rdquo; a completely new format.</p>
+							<p>The slides follow a top-to-bottom approach &ndash; starting with the overall indicators and how the top N routes cumulatively contribute to the these indicators (the Pareto principle applies very well here), down to investigating individual top N routes selected by the user.</p>
+							<p>I kept the maximum number of routes to be selected at 10 (although this can be easily adjusted), because these generally explain 80% of the major indicators related to revenue, number of passengers and on time performance. This way, we can quickly identify the main revenue drivers, as well as the main pain points without getting lost in the entire list of routes.</p>
+							<p>Another choice that I made was to keep the number of filters to a minimum, although I initially considered including a filter pane. Even though this is an exploratory dashboard, I tried to make it a slightly guided experience. I find that when a lot of filters are available to begin with, it can be easy to make multiple selections that could lead to confusing results.</p>
+							<p>Some of the visuals do interact with each other, which leads to a more intuitive experience &ndash; clicking on a specific bar that attracts the user&rsquo;s attention will lead to the filtering of other connected visuals.</p>
+														
+							<h3>Route Analysis &ndash; Top N Most Popular Routes</h3>
+							<p><img src="images/most popular routes 4.png" alt=""/></p>
+							<p>On this page the&nbsp;<strong>user can select the number of top routes</strong>&nbsp;they want to see based on the number of passengers.</p>
+							<p>When the slider changes the number of trips, the cards automatically update with the cumulative results for the top N routes. The small bar charts included in the card show how the top N routes contribute to the total - for example, top 10 routes accounted for 79% of the total number of routes.</p>
+							<p>The map also updates to show only the number of routes selected, and the matrix also updated with the corresponding routes. Clicking on an individual route will highlight it on the map.</p>
+							<p>Within the list of top N routes I included the number of passengers, as well as the revenue generated, as the latter usually matters the most to decision makers.</p>
+							<p>To explain the % difference between number of passengers and revenue (which I assume would be the first &ldquo;Why?&rdquo; when seeing the data), I added the average journey length and the ticket price, which should give a quick reasonable explanation.</p>
+							<p>Selecting &ldquo;Go To List of All Routes&rdquo; leads to a simple list of all the routes where they can be filtered and sorted by various indicators.</p>
+							
+							<h3>Revenue Analysis</h3>
+							<p><img src="images/Revenue Analysis_2.png" alt="" /></p>
+							<p>The Revenue Analysis starts with breakdown of the revenue by&nbsp;<strong>Rail Card, Ticket Class, Ticket Type, Purchase Type and Month</strong>.</p>
+							<p>The filter right below the title allows the user to see the breakdown based on different parameters &ndash; Breakdown of Total Revenue, of the Revenue for Top Selected Routes, of the Refunds, as well as a breakdown of the Average Ticket Price by all the categories mentioned.</p>
+							<p>I used color to make the connection between the total (or average) overall amount and the corresponding categories.</p>
+							<p><img src="images/revenue analysis filter.png" alt="" /><img src="images/revenue analysis filter 2.png" alt="" /><img src="images/revenue analysis filter 3.png" alt="" />
+							<p>These visuals also interact with each other, so when selecting one bar (ex: Standard Ticket Class), we can see how it filters the other categories:</p>
+							<p><img src="images/revenue analysis filter 4.png" alt="" / />Selecting an individual route from the matrix will also filter all the categories above and it will highlight the route on the map.</p>
+							<p>&nbsp;</p>
+							<h3>On-Time Performance Analysis</h3>
+							<p><img src="images/On Time Performance.png" alt=""/>This page covers the main&nbsp;<strong>on time performance cumulative indicators</strong>&nbsp;for the top N routes selected &ndash; number of trips cancelled/delayed as well as the corresponding amount of refunds requested.</p>
+							<p>It also includes the&nbsp;<strong>number of trips by reason of delay/cancellation</strong>&nbsp;and a&nbsp;<strong>breakdown by month</strong>.</p>
+							<p>These 2 visuals, together with the map and the list of routes all interact with each other, making it easy to explore further.</p>
+							<p>For example - selecting an individual route will show us the number of trips by reason for delay/cancellations, as well as a breakdown by month:</p>
+							<p><img src="images/on time by route.png" alt="" /></p>
+							<p>The list of the routes with the worst on-time performance can also be sorted by number of trips impacted, as well as by % of all trips impacted.</p>
+							
+							<h3>Peak Travel Time Analysis</h3>
+							<p><img src="images/Travel times.png" alt="" /></p>
+							<p>This page is the only one with a different format and it includes more filter options.</p>
+							<p>It is meant to allow the user to look for a specific departure station, route, or month and see various views of the daily and hourly traffic. The map will also update based on the departure station/route selected.</p>
+							<p>It also includes, besides viewing the number of passengers on each day/hour, analyzing alternate indicators at day/hour level:</p>
+							<ul>
+							<li>the number of passengers affected by cancellations/delays</li>
+							<li>number of trips scheduled</li>
+							<li>number of trips cancelled/delayed</li>
+							</ul>
+							
+						
+							
+
+				<!-- Footer -->
+					<footer id="footer">
+						<!--<div class="inner">-->
+							<!--<section>
+								<h2>Get in touch</h2>
+								<form method="post" action="#">
+									<div class="fields">
+										<div class="field half">
+											<input type="text" name="name" id="name" placeholder="Name" />
+										</div>
+										<div class="field half">
+											<input type="email" name="email" id="email" placeholder="Email" />
+										</div>
+										<div class="field">
+											<textarea name="message" id="message" placeholder="Message"></textarea>
+										</div>
+									</div>
+									<ul class="actions">
+										<li><input type="submit" value="Send" class="primary" /></li>
+									</ul>
+								</form>
+							</section>
+							<section>
+								<h2>Follow</h2>
+								<ul class="icons">
+									<li><a href="#" class="icon brands style2 fa-twitter"><span class="label">Twitter</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-facebook-f"><span class="label">Facebook</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-instagram"><span class="label">Instagram</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-dribbble"><span class="label">Dribbble</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-github"><span class="label">GitHub</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-500px"><span class="label">500px</span></a></li>
+									<li><a href="#" class="icon solid style2 fa-phone"><span class="label">Phone</span></a></li>
+									<li><a href="#" class="icon solid style2 fa-envelope"><span class="label">Email</span></a></li>
+								</ul>
+							</section> -->
+							<!--<ul class="copyright">
+								<li>&copy; Untitled. All rights reserved</li>
+								<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+								</ul>
+						</div> -->
+						Design: <a href="http://html5up.net">HTML5 UP</a>
+					</footer>
+
+			<!--</div>-->
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
